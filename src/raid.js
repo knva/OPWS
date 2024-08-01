@@ -10,7 +10,7 @@
 // @match           http://*.wsmud.com/*
 // @match           http://*.wamud.com/*
 // @run-at          document-end
-// @require         https://cdn.jsdelivr.net/npm/vue@2.2.2/dist/vue.min.js
+// @require         https://s4.zstatic.net/ajax/libs/vue/2.2.2/vue.min.js
 // @grant           unsafeWindow
 // @grant           GM_getValue
 // @grant           GM_setValue
@@ -1437,7 +1437,7 @@
         const executor = new CmdExecutor(appropriate, execute);
         CmdExecuteCenter.addExecutor(executor);
     })();
-
+    
      (function () {
         const appropriate = function (cmd) {
             return cmd.indexOf("@stop ") == 0;
@@ -4420,7 +4420,7 @@ look men;open men
             }, _ => {
                 alert("wsmud_Raid 配置上传失败！");
             });
-
+           
         },
         downloadConfig: function (pass) {
             Server._sync("downloadConfig", { pass: pass }, data => {
@@ -4468,7 +4468,7 @@ look men;open men
             });
         },
         uploadTriggers: function () {
-
+          
             const triggers = unsafeWindow.TriggerCenter.getAllData();
             const value = JSON.stringify(triggers);
             Server._sync("uploadTriggers", { id: Role.id, value: value }, pass => {
@@ -4480,8 +4480,8 @@ look men;open men
             }, _ => {
                 alert("角色触发器上传失败！");
             });
-
-
+            
+         
         },
         downloadTriggers: function (pass) {
             Server._sync("downloadTriggers", { pass: pass }, value => {
@@ -4565,7 +4565,7 @@ look men;open men
         }},()=>{
             alert("请先绑定手机号！");
         });
-
+          
         },
         importFlow: function (token, target) {
             if (token.indexOf("·流程") == -1) {
@@ -6243,7 +6243,7 @@ ksyb {r林震南}
   tm 运镖环数不到200环，无法快速运镖。
 [else if] (escort)!=null
   tm 当前有未完成的运镖任务，无法快速运镖。
-$zdwk
+$zdwk 
             `
             const p = new Performer("快速运镖", source);
             p.log(false);

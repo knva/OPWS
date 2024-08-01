@@ -33,6 +33,15 @@ Original Pure WSMUD
     localhost:3000
     ```
 
+#### 更新插件
+
+运行 `npm run download` 命令，将最新版本的脚本下载到本地。
+
+再使用 `npm run build` 命令构建项目。
+
+运行 `npm run dev` 命令，即可在浏览器中查看更新后的页面。
+
+
 Docker
 
 ```
