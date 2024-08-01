@@ -39,3 +39,12 @@ Docker
 docker build -t opws .
 docker run -p 3000:3000 opws
 ```
+
+
+hub.docker.com
+
+
+```
+docker pull opws
+docker run -d -p 3000:3000 opws
+```
