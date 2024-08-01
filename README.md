@@ -32,3 +32,10 @@ Original Pure WSMUD
     ```
     localhost:3000
     ```
+
+Docker
+
+```
+docker build -t opws .
+docker run -p 3000:3000 opws
+```
