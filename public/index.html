@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>MUD游戏，武神传说(插件版)</title>
+    <!--utf8-->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <link href="/dist/ws.css" rel="stylesheet" />
+    <script src="/dist/jquery.js"></script>
+    <script src="/js/vue.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/store.modern.min.js"></script>
+    <script src="/js/jquery.contextMenu.min.js"></script>
+    
+    <script src="/wg/wg.min.js"></script>
+    <script src="/dist/ws.min.js"></script>
+    <!-- <script src="/wg/fn2.js"></script> -->
+  </head>
+  <body>
+    <div class="login-content">
+      <div id="loader" class="loader hide">
+        <img src="/img/loader.gif" alt="" /><span id="loader_msg"
+          >正在登录</span
+        >
+      </div>
+      <div class="error hide"></div>
+      <div id="login_panel" class="mypanel" style="display: none">
+        <ul>
+          <li class="panel_item active">
+            <span>欢迎登录</span>
+          </li>
+          <li class="content">
+            <h3>你的用户名</h3>
+            <input
+              type="text"
+              id="login_name"
+              value=""
+              placeholder="请输入用户名"
+              class="textbox"
+            />
+
+            <h3>你的密码</h3>
+            <input
+              type="password"
+              id="login_pwd"
+              value=""
+              placeholder="请输入密码"
+              class="textbox"
+            />
+          </li>
+          <li class="panel_item" command="LoginIn">
+            <span class="glyphicon glyphicon-log-in"></span
+            ><span style="margin-left: 0.5rem">登录</span>
+          </li>
+          <li class="panel_item" command="ToRegist">
+            <span class="glyphicon glyphicon-edit"></span
+            ><span style="margin-left: 0.5rem">注册</span>
+          </li>
+          <li class="panel_item" command="Forget">
+            <span class="glyphicon glyphicon-question-sign"></span
+            ><span style="margin-left: 0.5rem">忘记密码</span>
+          </li>
+          <li class="panel_item download_cmd" command="Down">
+            <span class="glyphicon glyphicon-qrcode"></span
+            ><span style="margin-left: 0.5rem">手机客户端</span>
+          </li>
+        </ul>
+      </div>
+      <div id="download" class="mypanel" style="display: none">
+        <ul>
+          <li class="panel_item active">
+            <span>扫一扫下载手机客户端（安卓）</span>
+          </li>
+          <li class="content">
+            <div class="qr">
+              <div class="qr-left">
+                <img src="/img/mud.png" style="width: 20rem; height: 20rem" />
+              </div>
+              <div class="qr-right">
+                <a class="dl-logo" href="/mud.apk">
+                  <img src="/img/anroid_logo.png" />
+                  <span>android下载</span>
+                </a>
+                <a
+                  class="dl-logo"
+                  href="http://itunes.apple.com/cn/app/id1369131941?mt=8"
+                >
+                  <img src="/img/ios_logo.png" />
+                  <span>ios下载</span>
+                </a>
+              </div>
+            </div>
+          </li>
+
+          <li class="panel_item" command="ToLogin">
+            <span class="glyphicon glyphicon-chevron-left"></span
+            ><span style="margin-left: 0.5rem">返回</span>
+          </li>
+        </ul>
+      </div>
+      <div id="pwd_panel" class="mypanel" style="display: none">
+        <ul>
+          <li class="panel_item active">
+            <span>修改密码</span>
+          </li>
+          <li class="content">
+            <h3>输入你现在的密码</h3>
+            <input
+              type="password"
+              id="update_pwd1"
+              value=""
+              placeholder="输入你现在的密码"
+              class="textbox"
+            />
+            <div id="pwd_bind" style="display: none">
+              <h3>你绑定的手机</h3>
+              <input
+                type="text"
+                id="pwd_phone"
+                placeholder="请输入你的手机号码"
+                class="textbox"
+              />
+              <h3>接收到的验证码</h3>
+              <div class="validnum-box">
+                <input
+                  type="text"
+                  id="pwd_no"
+                  placeholder="请输入六位验证码"
+                  class="textbox"
+                />
+                <button class="validnum-btn">发送验证码</button>
+              </div>
+            </div>
+
+            <h3>你新的密码</h3>
+            <input
+              type="password"
+              id="update_pwd2"
+              value=""
+              placeholder="你新的密码"
+              class="textbox"
+            />
+            <h3>重复你的新密码</h3>
+            <input
+              type="password"
+              id="update_pwd3"
+              value=""
+              placeholder="重复你的新密码"
+              class="textbox"
+            />
+          </li>
+          <li class="panel_item" command="UpdatePwd">
+            <span class="glyphicon glyphicon-edit"></span
+            ><span style="margin-left: 0.5rem">修改</span>
+          </li>
+          <li class="panel_item" command="ToRolePanel">
+            <span class="glyphicon glyphicon-chevron-left"></span
+            ><span style="margin-left: 0.5rem">返回</span>
+          </li>
+        </ul>
+      </div>
+      <div id="bind_panel" class="mypanel" style="display: none">
+        <ul>
+          <li class="panel_item active">
+            <span>绑定手机</span>
+          </li>
+          <li class="content">
+            <h3>你绑定的手机</h3>
+            <input
+              type="text"
+              id="phone_no"
+              placeholder="请输入你的手机号码"
+              class="textbox"
+            />
+            <h3>接收到的验证码</h3>
+            <div class="validnum-box">
+              <input
+                type="text"
+                id="phone_valid"
+                placeholder="请输入六位验证码"
+                class="textbox"
+              />
+              <button class="validnum-btn">发送验证码</button>
+            </div>
+            <h3>你的密码</h3>
+            <input
+              type="password"
+              id="phone_pwd"
+              placeholder="请输入密码"
+              class="textbox"
+            />
+          </li>
+          <li class="panel_item" command="CheckValid">
+            <span class="glyphicon glyphicon-edit"></span
+            ><span style="margin-left: 0.5rem">绑定</span>
+          </li>
+          <li class="panel_item" command="ToRolePanel">
+            <span class="glyphicon glyphicon-chevron-left"></span
+            ><span style="margin-left: 0.5rem">返回</span>
+          </li>
+        </ul>
+      </div>
+      <div id="reset_panel" class="mypanel" style="display: none">
+        <ul>
+          <li class="panel_item active">
+            <span>重置你的密码</span>
+          </li>
+          <li class="content">
+            <h3>你的用户名</h3>
+            <input
+              type="text"
+              id="reset_name"
+              value=""
+              placeholder="请输入用户名，如果账号未绑定手机，请联系客服重置密码"
+              class="textbox"
+            />
+
+            <h3>你绑定的手机</h3>
+            <input
+              type="text"
+              id="reset_phone"
+              placeholder="请输入你的手机号码"
+              class="textbox"
+            />
+            <h3>接收到的验证码</h3>
+            <div class="validnum-box">
+              <input
+                type="text"
+                id="reset_no"
+                placeholder="请输入六位验证码"
+                class="textbox"
+              />
+              <button class="validnum-btn">发送验证码</button>
+            </div>
+            <h3>你新的密码</h3>
+            <input
+              type="password"
+              id="reset_pwd1"
+              value=""
+              placeholder="你新的密码"
+              class="textbox"
+            />
+            <h3>重复你的新密码</h3>
+            <input
+              type="password"
+              id="reset_pwd2"
+              value=""
+              placeholder="重复你的新密码"
+              class="textbox"
+            />
+          </li>
+          <li class="panel_item" command="ResetPwd">
+            <span class="glyphicon glyphicon-edit"></span
+            ><span style="margin-left: 0.5rem">重置密码</span>
+          </li>
+          <li class="panel_item" command="ToLogin">
+            <span class="glyphicon glyphicon-chevron-left"></span
+            ><span style="margin-left: 0.5rem">返回</span>
+          </li>
+        </ul>
+      </div>
+      <div id="regist_panel" class="mypanel" style="display: none">
+        <ul>
+          <li class="panel_item active">注册用户</li>
+          <li class="content">
+            <h3>你的用户名</h3>
+            <input
+              type="text"
+              id="regist_name"
+              placeholder="请输入用户名"
+              class="textbox"
+            />
+
+            <h3>你的密码</h3>
+            <input
+              type="password"
+              id="regist_pwd1"
+              placeholder="请输入密码"
+              class="textbox"
+            />
+            <h3>重复你的密码</h3>
+            <input
+              type="password"
+              id="regist_pwd2"
+              placeholder="请输入密码"
+              class="textbox"
+            />
+
+            <div id="regist_valpanel">
+              <h3>请输入图片验证码</h3>
+              <div class="validnum-box">
+                <input
+                  type="text"
+                  id="regist_val"
+                  value=""
+                  placeholder="请输入图片验证码"
+                  class="textbox"
+                />
+                <img src="" class="validnum-img" />
+              </div>
+            </div>
+          </li>
+          <li class="panel_item" command="Regist">
+            <span class="glyphicon glyphicon-saved"></span>
+            <span style="margin-left: 0.5rem">确定</span>
+          </li>
+          <li class="panel_item" command="ToLogin">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+            <span style="margin-left: 0.5rem">取消</span>
+          </li>
+        </ul>
+      </div>
+      <div id="slist_panel" class="mypanel" style="display: none">
+        <ul>
+          <li class="panel_item active">选择你要登录的游戏</li>
+          <li class="content">
+            <ul class="server-list"></ul>
+          </li>
+          <li class="panel_item" command="SelectServer">
+            <span class="glyphicon glyphicon-ok"></span>
+            <span style="margin-left: 0.5rem">选择服务器</span>
+          </li>
+          <li class="panel_item" command="ReLogin">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+            <span style="margin-left: 0.5rem">返回登录</span>
+          </li>
+        </ul>
+      </div>
+      <div id="role_panel" class="mypanel" style="display: none">
+        <ul>
+          <li class="panel_item active">选择你的角色</li>
+          <li class="content">
+            <ul class="role-list"></ul>
+          </li>
+          <li class="panel_item" command="SelectRole">
+            <span class="glyphicon glyphicon-ok"></span>
+            <span style="margin-left: 0.5rem">登录</span>
+          </li>
+          <li class="panel_item" command="AddRole">
+            <span class="glyphicon glyphicon-plus"></span>
+            <span style="margin-left: 0.5rem">创建角色</span>
+          </li>
+          <li class="panel_item" command="DeleteRole">
+            <span class="glyphicon glyphicon-remove"></span>
+            <span style="margin-left: 0.5rem">删除角色</span>
+          </li>
+          <li class="panel_item" command="ToUpdate">
+            <span class="glyphicon glyphicon-edit"></span>
+            <span style="margin-left: 0.5rem">修改密码</span>
+          </li>
+          <li class="panel_item" command="BindPhone">
+            <span class="glyphicon glyphicon-lock"></span>
+            <span style="margin-left: 0.5rem">绑定手机</span>
+          </li>
+          <li class="panel_item" command="ToServerPanel">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+            <span style="margin-left: 0.5rem">返回列表</span>
+          </li>
+          <li class="bottom">
+            <ul class="new-list">
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div id="new_panel" class="mypanel" style="display: none">
+        <ul>
+          <li class="content" style="height: 20rem">
+            <iframe
+              frameborder="0"
+              id="news_frame"
+              width="100%"
+              height="100%"
+            ></iframe>
+          </li>
+
+          <li class="panel_item" command="ToRolePanel">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+            <span style="margin-left: 0.5rem">返回</span>
+          </li>
+        </ul>
+      </div>
+      <div class="mypanel" id="addrole_panel">
+        <ul>
+          <li class="panel_item active">创建你的角色卡</li>
+          <li class="content">
+            <!--<h3 class="regist-title-text">
+                        你的唯一标识,3-10位英文字符
+                    </h3>
+                    <span class="glyphicon glyphicon-refresh regist-title-ref" onclick="RefreshInput('id');"></span>
+                    <div>
+                        <input type="text" placeholder="请输入你的ID" id="reg_id" class="textbox" style="width:250px;" />
+                    </div>-->
+            <div class="input-error"></div>
+            <div>
+              <h3 class="regist-title-text">你的称呼，2-5个中文字符</h3>
+              <span
+                onclick="RefreshInput('name');"
+                class="glyphicon glyphicon-refresh regist-title-ref"
+              ></span>
+            </div>
+            <div>
+              <input
+                type="text"
+                placeholder="请输入姓名"
+                id="reg_name"
+                class="textbox"
+                style="width: 250px"
+              />
+            </div>
+
+            <h3>你的性别</h3>
+            <div>
+              <label>
+                <input
+                  type="radio"
+                  name="role_gander"
+                  id="gender_0"
+                  checked="checked"
+                />
+                男
+              </label>
+
+              <label>
+                <input type="radio" name="role_gander" />
+                女
+              </label>
+            </div>
+
+            <div>
+              <h3 class="regist-title-text">你的先天属性</h3>
+              <span
+                class="glyphicon glyphicon-refresh regist-title-ref"
+                onclick="RefreshInput('prop');"
+              ></span>
+            </div>
+            <table>
+              <tr>
+                <td style="width: 5rem">
+                  臂力：<span
+                    class="glyphicon glyphicon-exclamation-sign"
+                    style="color: #bbbbbb"
+                    data-container="body"
+                    data-toggle="popover"
+                    data-trigger="hover"
+                    data-content="影响人物的攻击力，招架等"
+                  ></span>
+                </td>
+                <td style="width: 5rem">
+                  <input type="text" id="reg_str" class="hide_txt" value="20" />
+                </td>
+
+                <td style="width: 5rem">
+                  根骨：<span
+                    class="glyphicon glyphicon-exclamation-sign"
+                    style="color: #bbbbbb"
+                    data-container="body"
+                    data-toggle="popover"
+                    data-trigger="hover"
+                    data-content="影响人物的内力上限，气血，防御等"
+                  ></span>
+                </td>
+                <td>
+                  <input type="text" id="reg_con" class="hide_txt" value="20" />
+                </td>
+              </tr>
+              <tr>
+                <td style="width: 2.5rem">
+                  身法：<span
+                    class="glyphicon glyphicon-exclamation-sign"
+                    style="color: #bbbbbb"
+                    data-container="body"
+                    data-toggle="popover"
+                    data-trigger="hover"
+                    data-content="影响人物的躲闪，暴击等属性"
+                  ></span>
+                </td>
+                <td style="width: 5rem">
+                  <input type="text" id="reg_dex" class="hide_txt" value="20" />
+                </td>
+
+                <td style="width: 2.5rem">
+                  悟性：<span
+                    class="glyphicon glyphicon-exclamation-sign"
+                    style="color: #bbbbbb"
+                    data-container="body"
+                    data-toggle="popover"
+                    data-trigger="hover"
+                    data-content="影响人物对技能的领悟速度等"
+                  ></span>
+                </td>
+                <td style="width: 5rem">
+                  <input type="text" id="reg_int" class="hide_txt" value="20" />
+                </td>
+              </tr>
+            </table>
+            <div style="margin: 0.5rem 0px; color: #999999">
+              需要在15-30之间，并且总和等于80
+            </div>
+          </li>
+          <li class="panel_item" command="CreateRole">
+            <span class="glyphicon glyphicon-saved"></span
+            ><span style="margin-left: 0.5rem">创建</span>
+          </li>
+          <li class="panel_item" command="ToRolePanel">
+            <span class="glyphicon glyphicon-off"></span
+            ><span style="margin-left: 0.5rem">返回</span>
+          </li>
+        </ul>
+      </div>
+      <div class="signinfo">
+        ©2017 武神传说 粤ICP备<a href="http://www.beian.miit.gov.cn"
+          >15106584号-1</a
+        >
+      </div>
+    </div>
+    <div class="container" style="display: none">
+      <div class="dialog hide">
+        <div class="dialog-header">
+          <span class="dialog-icon glyphicon glyphicon-map-marker"></span>
+          <span class="dialog-title"></span>
+          <span class="dialog-close glyphicon glyphicon-remove-circle"></span>
+        </div>
+        <div class="dialog-content"></div>
+        <div class="dialog-footer"></div>
+      </div>
+      <div class="content-room">
+        <div class="map-panel"></div>
+        <div class="room-title">
+          <span class="room-name"> </span
+          ><span class="glyphicon glyphicon-map-marker map-icon"></span>
+        </div>
+
+        <div style="text-indent: 2em" class="room_desc"></div>
+        <div style="text-indent: 2em" class="room_exits"></div>
+        <div
+          class="room_items"
+          style="max-height: 8rem; overflow-y: auto"
+        ></div>
+      </div>
+      <div class="content-message"></div>
+
+      <div class="tool-bar bottom-bar">
+        <div class="state-bar hide">
+          <span class="title">正在学习中...</span>
+          <span class="stop">停止</span>
+        </div>
+        <span
+          command="showtool"
+          class="glyphicon glyphicon-option-horizontal tool-item br-tool hide-tool"
+        >
+          <span class="tag hide"></span>
+        </span>
+        <span command="showcombat" class="tool-item">
+          <span class="glyphicon glyphicon-flash tool-icon"></span>
+          <span class="tool-text">动作</span>
+        </span>
+        <span command="showchat" class="tool-item">
+          <span class="glyphicon glyphicon-volume-down tool-icon"></span>
+          <span class="tool-text">聊天</span>
+        </span>
+        <span
+          command="stopstate"
+          class="tool-item state-tool"
+          style="display: none"
+        >
+          <span class="glyphicon glyphicon-off tool-icon"></span>
+          <span class="tool-text">停止</span>
+        </span>
+
+        <div class="tool-bar right-bar">
+          <span command="setting" class="tool-item" style="display: none">
+            <span class="glyphicon glyphicon-cog tool-icon"></span>
+            <span cass="tool-text">设置</span>
+          </span>
+
+          <span class="tool-item" command="jh" style="display: none">
+            <span class="glyphicon glyphicon-home tool-icon"></span>
+            <span class="tool-text">江湖</span>
+          </span>
+          <span command="stats" class="tool-item" style="display: none">
+            <span class="glyphicon glyphicon-stats tool-icon"></span>
+            <span class="tool-text">排行</span>
+          </span>
+          <span command="message" class="tool-item" style="display: none">
+            <span class="glyphicon glyphicon-envelope tool-icon"></span>
+            <span class="tool-text">社交</span>
+            <span class="tag hide">0</span>
+          </span>
+          <span command="shop" class="tool-item" style="display: none">
+            <span class="glyphicon glyphicon-shopping-cart tool-icon"></span>
+            <span class="tool-text">商城</span>
+          </span>
+          <span command="tasks" class="tool-item" style="display: none">
+            <span class="glyphicon glyphicon-exclamation-sign tool-icon"></span>
+            <span class="tool-text">任务</span>
+            <span class="tag hide">0</span>
+          </span>
+          <span command="skills" class="tool-item" style="display: none">
+            <span class="glyphicon glyphicon-book tool-icon"></span>
+            <span class="tool-text">技能</span>
+          </span>
+          <span command="pack" class="tool-item" style="display: none">
+            <span class="glyphicon glyphicon-briefcase tool-icon"></span>
+            <span class="tool-text">背包</span>
+          </span>
+          <span class="tool-item" command="score" style="display: none">
+            <span class="glyphicon glyphicon-user tool-icon"></span>
+            <span class="tool-text">属性</span>
+          </span>
+        </div>
+      </div>
+      <div class="content-bottom">
+        <div class="combat-panel hide">
+          <div class="room-commands"></div>
+          <div class="combat-commands"></div>
+        </div>
+      </div>
+
+      <div class="chat-panel hide">
+        <div class="channel-box" channel="chat">
+          <span class="selected" channel="chat">世界</span>
+          <span channel="tm">组队</span>
+          <span channel="fam">门派</span>
+          <span channel="say">房间</span>
+          <span channel="es">全区</span>
+          <span channel="pty">帮派</span>
+          <span channel="emote">表情</span>
+        </div>
+        <input class="sender-box" />
+        <span class="glyphicon glyphicon-send sender-btn"></span>
+        <div class="channel-emotes hide"></div>
+      </div>
+    </div>
+    <div class="hidden-item hide">
+      <div class="dialog-score" cellpadding="0" cellspacing="1">
+        <div>
+          <span class="title"><hic>【性别】</hic></span>
+          <span data-prop="gender" class="value"></span>
+          <span class="title"><hic>【等级】</hic></span>
+          <span data-prop="level" class="value"></span><br />
+          <span class="title"><hic>【年龄】</hic></span>
+          <span data-prop="age" style="width: 10em" class="value">14</span
+          ><br />
+          <span class="title"><hic>【经验】</hic></span>
+          <hic>
+            <span data-prop="exp" class="value">0</span>
+          </hic>
+          <span class="title"><hic>【潜能】</hic></span>
+          <hic>
+            <span data-prop="pot" class="value">0</span>
+          </hic>
+          <br />
+          <div>
+            <span class="title"><hig>【气血】</hig></span
+            ><hig>
+              <span data-prop="hp" class="value" style="text-align: right"
+                >0</span
+              ><span>&nbsp;/&nbsp;</span
+              ><span class="value" data-prop="max_hp">0 </span>
+            </hig>
+          </div>
+          <div>
+            <span class="title"><hig>【内力】</hig></span
+            ><hig>
+              <span data-prop="mp" class="value" style="text-align: right"
+                >0</span
+              ><span>&nbsp;/&nbsp;</span
+              ><span class="value" data-prop="max_mp">0 </span>
+            </hig>
+          </div>
+          <span class="title" style="width: 6em"><hic>【内力上限】</hic></span>
+          <hic><span data-prop="limit_mp" class="value">0</span></hic>
+          <br />
+          <span class="title" style="width: 6em"><hic>【精力】</hic></span>
+          <hic><span data-prop="jingli" class="value">0</span></hic>
+        </div>
+        <h3>先天属性</h3>
+        <div>
+          <span class="title"><hiy>【臂力】</hiy></span>
+          <span class="value">
+            <hiy><span data-prop="str">0</span></hiy>
+            <NOR> (+<span data-prop="str_add">0</span>)</NOR>
+          </span>
+          <span class="title"><hiy>【根骨】</hiy></span>
+          <span class="value">
+            <hiy><span data-prop="con">0</span></hiy>
+            <NOR> (+<span data-prop="con_add">0</span>) </NOR> </span
+          ><br />
+          <span class="title"><hiy>【身法】</hiy></span>
+          <span class="value">
+            <hiy>
+              <span data-prop="dex"> 0 </span>
+            </hiy>
+            <NOR> (+<span data-prop="dex_add">0</span>) </NOR>
+          </span>
+
+          <span class="title"><hiy>【悟性】</hiy></span>
+          <span class="value">
+            <hiy>
+              <span data-prop="int">0</span>
+            </hiy>
+            <NOR> (+<span data-prop="int_add">0</span>) </NOR> </span
+          ><br />
+          <span class="title"><hiy>【容貌】</hiy></span>
+          <span class="value"
+            ><hiy><span data-prop="per">0</span></hiy></span
+          >
+          <span class="title"><hiy>【福缘】</hiy></span>
+          <span class="value"
+            ><hiy><span data-prop="kar">0</span></hiy></span
+          >
+        </div>
+        <h3>战斗属性</h3>
+
+        <div>
+          <span class="title"><hic>【攻击】</hic></span>
+          <hic><span data-prop="gj" class="value">0</span></hic>
+
+          <span class="title"><hic>【防御】</hic></span>
+
+          <hic>
+            <span data-prop="fy" class="value">0</span> </hic
+          ><br />
+          <span class="title"><hic>【命中】</hic></span>
+          <hic>
+            <span data-prop="mz" class="value">0</span>
+          </hic>
+          <span class="title"><hic>【躲闪】</hic></span>
+          <hic>
+            <span data-prop="ds" class="value">0</span> </hic
+          ><br />
+          <span class="title"><hic>【招架】</hic></span>
+          <hic>
+            <span data-prop="zj" class="value">0</span>
+          </hic>
+          <span class="title"><hic>【暴击】</hic></span>
+          <hic>
+            <span data-prop="bj" class="value">0</span>
+          </hic>
+          <br />
+          <span class="title" style="width: 6em"><hic>【攻击速度】</hic></span>
+          <hic><span data-prop="gjsd" class="value">0</span></hic>
+          <h3>师门信息</h3>
+
+          <span class="title"><hic>【门派】</hic></span>
+          <hic>
+            <span data-prop="family" class="value">无门无派</span>
+          </hic>
+          <br />
+          <span class="title"><hic>【师傅】</hic></span>
+          <hic>
+            <span data-prop="master" class="value">无</span>
+          </hic>
+          <br />
+          <span class="title"><hic>【功绩】</hic></span>
+          <hic>
+            <span data-prop="gongji" class="value">0</span> </hic
+          ><br />
+        </div>
+      </div>
+      <div class="dialog-titles"></div>
+      <div class="dialog-score2">
+        <span class="title"><hic>【最终伤害】</hic></span>
+        <hic>
+          <span data-prop="add_sh" class="value">0</span>
+        </hic>
+        <br />
+        <span class="title"><hic>【忽视防御】</hic></span>
+        <hic>
+          <span data-prop="diff_fy" class="value">0</span> </hic
+        ><br />
+
+        <span class="title"><hic>【暴击伤害】</hic></span>
+        <hic>
+          <span data-prop="add_bj" class="value">0</span>
+        </hic>
+        <br />
+
+        <span class="title"><hic>【伤害减免】</hic></span>
+        <hic>
+          <span data-prop="diff_sh" class="value">0</span>
+        </hic>
+        <br />
+        <span class="title"><hic>【暴击抵抗】</hic></span>
+        <hic>
+          <span data-prop="diff_bj" class="value">0</span> </hic
+        ><br />
+        <span class="title"><hic>【释放时间减少】</hic></span>
+        <hic>
+          <span data-prop="releasetime" class="value">0</span> </hic
+        ><br />
+        <span class="title"><hic>【忙乱时间】</hic></span>
+        <hic>
+          <span data-prop="busy" class="value">0</span> </hic
+        ><br />
+        <span class="title"><hic>【忽视忙乱】</hic></span>
+        <hic>
+          <span data-prop="diff_busy" class="value">0</span> </hic
+        ><br />
+        <span class="title"><hic>【冷却时间减少】</hic></span>
+        <hic>
+          <span data-prop="distime" class="value">0</span> </hic
+        ><br />
+        <span class="title"><hic>【内力消耗减少】</hic></span>
+        <hic>
+          <span data-prop="expend_mp" class="value">0</span> </hic
+        ><br />
+        <span class="title"><hic>【负面抵抗】</hic></span>
+        <hic>
+          <span data-prop="downside_per" class="value">0</span> </hic
+        ><br />
+        <span class="title"><hic>【打坐效率】</hic></span>
+        <hic>
+          <span data-prop="dazuo_per" class="value">0</span> </hic
+        ><br />
+        <span class="title"><hic>【学习效率】</hic></span>
+        <hic>
+          <span data-prop="study_per" class="value">0</span> </hic
+        ><br />
+        <span class="title"><hic>【练习效率】</hic></span>
+        <hic>
+          <span data-prop="lianxi_per" class="value">0</span>
+        </hic>
+      </div>
+
+      <div class="setting dialog-setting">
+        <h3>房间信息</h3>
+        <div class="setting-item" for="hide_roomdesc">
+          <span class="title"> 不显示房间描述 </span>
+          <span class="switch">
+            <span class="switch-button"> </span>
+            <span class="switch-text"> 关 </span>
+          </span>
+        </div>
+        <div class="setting-item" for="exits_dir">
+          <span class="title"> 出口描述使用方向描述 </span>
+          <span class="switch">
+            <span class="switch-button"> </span>
+            <span class="switch-text"> 关 </span>
+          </span>
+        </div>
+        <div class="setting-item" for="show_command">
+          <span class="title"> 在房间列出NPC或道具的可用命令 </span>
+          <span class="switch">
+            <span class="switch-button"> </span>
+            <span class="switch-text"> 关 </span>
+          </span>
+        </div>
+
+        <div class="setting-item" for="show_roomitem">
+          <span class="title"> 在命令栏列出房间内的可用物品 </span>
+          <span class="switch">
+            <span class="switch-button"> </span>
+            <span class="switch-text"> 关 </span>
+          </span>
+        </div>
+        <div class="setting-item" for="item_firstme">
+          <span class="title"> 自己始终显示在房间物品第一列 </span>
+          <span class="switch">
+            <span class="switch-button"> </span>
+            <span class="switch-text"> 关 </span>
+          </span>
+        </div>
+
+        <div class="setting-item" for="keep_msg">
+          <span class="title"> 切换房间时不清空上房间信息 </span>
+          <span class="switch">
+            <span class="switch-button"> </span>
+            <span class="switch-text"> 关 </span>
+          </span>
+        </div>
+        <div class="setting-item" for="off_move">
+          <span class="title"> 不显示玩家进出房间描述 </span>
+          <span class="switch">
+            <span class="switch-button"> </span>
+            <span class="switch-text"> 关 </span>
+          </span>
+        </div>
+        <div class="setting-item" for="off_plist">
+          <span class="title"> 隐藏玩家列表(只显示自己和NPC) </span>
+          <span class="switch">
+            <span class="switch-button"> </span>
+            <span class="switch-text"> 关 </span>
+          </span>
+        </div>
+        <div class="setting-item" for="no_spmsg">
+          <span class="title"> 聊天信息不分开显示 </span>
+          <span class="switch">
+            <span class="switch-button"> </span>
+            <span class="switch-text"> 关 </span>
+          </span>
+        </div>
+        <div class="setting-item" for="auto_sortitem">
+          <span class="title"> 按品质自动排列背包和技能 </span>
+          <span class="switch">
+            <span class="switch-button"> </span>
+            <span class="switch-text"> 关 </span>
+          </span>
+        </div>
+        <div class="setting-item" for="no_message">
+          <span class="title">
+            不显示其他玩家或NPC的房间消息(基本忽略所有战斗，动作描述，慎用)
+          </span>
+          <span class="switch">
+            <span class="switch-button"> </span>
+            <span class="switch-text"> 关 </span>
+          </span>
+        </div>
+        <h3>战斗信息</h3>
+
+        <div class="setting-item" for="auto_showcombat">
+          <span class="title"> 战斗时自动打开战斗面板 </span>
+          <span class="switch">
+            <span class="switch-button"> </span>
+            <span class="switch-text"> 关 </span>
+          </span>
+        </div>
+        <div class="setting-item" for="auto_hideroom">
+          <span class="title"> 战斗时自动隐藏房间信息 </span>
+          <span class="switch">
+            <span class="switch-button"> </span>
+            <span class="switch-text"> 关 </span>
+          </span>
+        </div>
+        <div class="setting-item" for="no_combatmsg">
+          <span class="title"> 不显示其他玩家的战斗信息 </span>
+          <span class="switch">
+            <span class="switch-button"> </span>
+            <span class="switch-text"> 关 </span>
+          </span>
+        </div>
+        <div class="setting-item" for="no_mcmsg">
+          <span class="title"> 不显示自己的普通战斗信息 </span>
+          <span class="switch">
+            <span class="switch-button"> </span>
+            <span class="switch-text"> 关 </span>
+          </span>
+        </div>
+        <div class="setting-item" for="action_wrap">
+          <span class="title"> 动作栏允许换行 </span>
+          <span class="switch">
+            <span class="switch-button"> </span>
+            <span class="switch-text"> 关 </span>
+          </span>
+        </div>
+        <div class="setting-item" for="combat_wrap">
+          <span class="title"> 技能栏允许换行 </span>
+          <span class="switch">
+            <span class="switch-button"> </span>
+            <span class="switch-text"> 关 </span>
+          </span>
+        </div>
+        <div class="setting-item" for="show_hpnum">
+          <span class="title"> 显示血量为数字 </span>
+          <span class="switch">
+            <span class="switch-button"> </span>
+            <span class="switch-text"> 关 </span>
+          </span>
+        </div>
+        <div class="setting-item" for="off_hp">
+          <span class="title"> 关闭血条显示 </span>
+          <span class="switch">
+            <span class="switch-button"> </span>
+            <span class="switch-text"> 关 </span>
+          </span>
+        </div>
+        <div class="setting-item" for="show_damage">
+          <span class="title"> 显示伤害统计 </span>
+          <span class="switch">
+            <span class="switch-button"> </span>
+            <span class="switch-text"> 关 </span>
+          </span>
+        </div>
+        <h3>基本设置</h3>
+        <div class="setting-item" for="fullscreen">
+          <span class="title"> 全屏显示 </span>
+          <span class="switch">
+            <span class="switch-button"> </span>
+            <span class="switch-text"> 关 </span>
+          </span>
+        </div>
+        <div class="setting-item" for="font">
+          <span class="title"> 字体(仅浏览器) </span>
+          <span class="color-list">
+            <span class="color-item">默</span>
+            <span class="color-item" style="font-family: 宋体">宋</span>
+            <span class="color-item" style="font-family: 楷体">楷</span>
+            <span class="color-item" style="font-family: 隶书">隶</span>
+          </span>
+        </div>
+        <div class="setting-item" for="fontsize">
+          <span class="title"> 字体大小 </span>
+          <span class="color-list">
+            <span class="color-item" style="font-size: 0.75rem">字</span>
+            <span class="color-item" style="font-size: 0.875rem">字</span>
+            <span class="color-item" style="font-size: 1rem">字</span>
+            <span class="color-item" style="font-size: 1.25rem">字</span>
+          </span>
+        </div>
+        <div class="setting-item" for="backcolor">
+          <span class="title"> 背景颜色 </span>
+          <span class="color-list">
+            <span class="color-item" style="background-color: black"></span>
+            <span class="color-item" style="background-color: white"></span>
+            <span class="color-item" style="background-color: burlywood"></span>
+          </span>
+        </div>
+        <div class="setting-item" for="fontcolor">
+          <span class="title"> 正常字体颜色 </span>
+          <span class="color-list">
+            <span
+              class="color-item select"
+              style="background-color: #008000"
+            ></span>
+            <span class="color-item" style="background-color: white"></span>
+            <span class="color-item" style="background-color: black"></span>
+          </span>
+        </div>
+        <h3>游戏设置</h3>
+        <div class="setting-item" for="no_master">
+          <span class="title"> 不接受玩家拜师 </span>
+          <span class="switch">
+            <span class="switch-button"> </span>
+            <span class="switch-text"> 关 </span>
+          </span>
+        </div>
+        <div class="setting-item" for="no_team">
+          <span class="title"> 不接受玩家组队邀请 </span>
+          <span class="switch">
+            <span class="switch-button"> </span>
+            <span class="switch-text"> 关 </span>
+          </span>
+        </div>
+        <div class="setting-item" for="hide_equip">
+          <span class="title"> 隐藏自己的装备 </span>
+          <span class="switch">
+            <span class="switch-button"> </span>
+            <span class="switch-text"> 关 </span>
+          </span>
+        </div>
+        <div class="setting-item" for="show_cus">
+          <span class="title"> 允许其他玩家查看自己的自创武功 </span>
+          <span class="switch">
+            <span class="switch-button"> </span>
+            <span class="switch-text"> 关 </span>
+          </span>
+        </div>
+        <div class="setting-item" for="off_fight">
+          <span class="title"> 不接受比试 </span>
+          <span class="switch">
+            <span class="switch-button"> </span>
+            <span class="switch-text"> 关 </span>
+          </span>
+        </div>
+
+        <div class="setting-item" for="ban_pk">
+          <span class="title"> PK保护 </span>
+          <span class="switch">
+            <span class="switch-button"> </span>
+            <span class="switch-text"> 关 </span>
+          </span>
+        </div>
+        <h3>频道设置</h3>
+        <div class="setting-item" for="off_chat">
+          <span class="title"> 屏蔽公共频道 </span>
+          <span class="switch">
+            <span class="switch-button"> </span>
+            <span class="switch-text"> 关 </span>
+          </span>
+        </div>
+        <div class="setting-item" for="off_fam">
+          <span class="title"> 屏蔽门派频道 </span>
+          <span class="switch">
+            <span class="switch-button"> </span>
+            <span class="switch-text"> 关 </span>
+          </span>
+        </div>
+        <div class="setting-item" for="off_es">
+          <span class="title"> 屏蔽全区频道 </span>
+          <span class="switch">
+            <span class="switch-button"> </span>
+            <span class="switch-text"> 关 </span>
+          </span>
+        </div>
+        <div class="setting-item" for="off_pty">
+          <span class="title"> 屏蔽帮派频道 </span>
+          <span class="switch">
+            <span class="switch-button"> </span>
+            <span class="switch-text"> 关 </span>
+          </span>
+        </div>
+      </div>
+
+      <div class="setting dialog-help">
+        <div class="help-item" action="help1">如何开始</div>
+        <div class="help-item" action="help2">游戏特色</div>
+        <div class="help-item" action="help3">任务系统</div>
+        <div class="help-item" action="help4">副本攻略</div>
+      </div>
+
+      <div class="setting dialog-custom">
+        <div class="setting-item" for="auto_pfm">
+          <span class="title"> 当你击杀玩家或NPC时，自动出招 </span>
+          <span class="switch">
+            <span class="switch-button"> </span>
+            <span class="switch-text"> 关 </span>
+          </span>
+        </div>
+        <textarea
+          class="settingbox hide"
+          spellcheck="false"
+          id="auto_pfm"
+        ></textarea>
+        <div class="setting-item" for="auto_pfm2">
+          <span class="title"> 当你被玩家击杀时，自动反击 </span>
+          <span class="switch">
+            <span class="switch-button"> </span>
+            <span class="switch-text"> 关 </span>
+          </span>
+        </div>
+        <textarea
+          class="settingbox hide"
+          spellcheck="false"
+          id="auto_pfm2"
+        ></textarea>
+        <div class="setting-item" for="auto_work">
+          <span class="title">
+            当你学习，练习，打坐中断后，自动去挖矿或以下操作
+          </span>
+          <span class="switch">
+            <span class="switch-button"> </span>
+            <span class="switch-text"> 关 </span>
+          </span>
+        </div>
+        <textarea
+          class="settingbox hide"
+          spellcheck="false"
+          id="auto_work"
+        ></textarea>
+
+        <div class="setting-item" for="auto_get">
+          <span class="title"> 当你击杀NPC后自动拾取战利品 </span>
+          <span class="switch">
+            <span class="switch-button"> </span>
+            <span class="switch-text"> 关 </span>
+          </span>
+        </div>
+        <button class="setting-ok">保存设置</button>
+      </div>
+    </div>
+    <div class="dialog-confirm" style="display: none">
+      <div class="dialog-content"></div>
+      <span class="dialog-btn btn-ok">
+        <span class="glyphicon glyphicon-ok-circle btn-icon"></span>
+        <span class="btn-text">确认</span>
+      </span>
+    </div>
+    <div class="pay" style="display: none"></div>
+  </body>
+</html>
