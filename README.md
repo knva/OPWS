@@ -16,6 +16,8 @@ Original Pure WSMUD
 
 #### 使用方法
 
+一般情况下不需要构建项目，直接运行 `npm run dev` 即可。 
+
 1. **构建项目**：
     ```bash
     npm run build
