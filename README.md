@@ -45,6 +45,6 @@ hub.docker.com
 
 
 ```
-docker pull opws
-docker run -d -p 3000:3000 opws
+docker pull knva/opws
+docker run -d -p 3000:3000 knva/opws
 ```
