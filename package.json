@@ -8,6 +8,7 @@
     "babel": "babel src --out-dir src/gen --config-file ./babel.config.json",
     "minify": "gulp minifyjs2",
     "download": "gulp download",
+    "update": "gulp update",
     "build": "npm run clean && npm run babel && npm run minify",
     "dev": "node ./app.js"
   },

@@ -55,7 +55,21 @@ gulp.task("download", function () {
     },
   ]).pipe(gulp.dest("./src/"));
 });
-
+/**
+ * 下载最新游戏
+ */
+gulp.task("update", function () {
+  return download([
+    {
+      file: "index.html",
+      url: "http://www.wamud.com/",
+    },
+    {
+      file: "./dist/ws.min.js",
+      url: "http://www.wamud.com/dist/ws.min.js",
+    }
+  ]).pipe(gulp.dest("./public/"));
+});
 /**
  * 压缩js(css压缩原理类同)
  * 解压文件路径： ['./js/index.js'] js多个文件进行压缩
